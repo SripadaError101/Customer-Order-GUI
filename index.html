@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Customer Shopping GUI</title>
+        <style>
+            :root{
+                --bg:#f3efe4;
+                --ink:#14302e;
+                --muted:#5d6f6c;
+                --card:#fffdf7;
+                --line:#d9d2bf;
+                --accent:#0f6b63;
+                --accent-dark:#0a4f49;
+                --yellow:#f6c945;
+            }
+            *{box-sizing:border-box;}
+            body{
+                margin:0;
+                padding:32px 16px 60px;
+                background:var(--bg);
+                color:var(--ink);
+                font-family:"Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
+                font-size:16px;
+                line-height:1.5;
+            }
+            h2{
+                margin:0 0 20px;
+                font-size:26px;
+                font-weight:700;
+                letter-spacing:-0.01em;
+            }
+            form, .history{
+                max-width:880px;
+                margin:0 auto;
+                background:var(--card);
+                border:1px solid var(--line);
+                border-radius:14px;
+                padding:28px;
+                box-shadow:0 1px 2px rgba(20,48,46,.06);
+            }
+            form{
+                border-top:6px solid var(--yellow);
+                display:grid;
+                grid-template-columns:1fr 1fr 1fr;
+                gap:16px 20px;
+                text-align:left;
+            }
+            form h2{grid-column:1 / -1; margin-bottom:4px;}
+            label{
+                display:flex;
+                flex-direction:column;
+                gap:6px;
+                font-size:14px;
+                font-weight:600;
+                color:var(--muted);
+            }
+            input, select{
+                width:100%;
+                padding:10px 12px;
+                font:inherit;
+                font-weight:400;
+                color:var(--ink);
+                background:#fff;
+                border:1px solid var(--line);
+                border-radius:8px;
+            }
+            input:focus, select:focus, button:focus-visible{
+                outline:3px solid rgba(15,107,99,.35);
+                outline-offset:1px;
+                border-color:var(--accent);
+            }
+            button{
+                grid-column:1 / -1;
+                justify-self:start;
+                padding:11px 28px;
+                font:inherit;
+                font-weight:600;
+                color:#fff;
+                background:var(--accent);
+                border:none;
+                border-radius:8px;
+                cursor:pointer;
+                transition:background .15s;
+            }
+            button:hover{background:var(--accent-dark);}
+            button:active{transform:translateY(1px);}
+            .history{margin-top:28px;}
+            .history h2{margin-bottom:16px;}
+            .table-wrap{overflow-x:auto;}
+            table{
+                width:100%;
+                border-collapse:collapse;
+                text-align:left;
+            }
+            th{
+                padding:12px 14px;
+                font-size:14px;
+                font-weight:600;
+                color:var(--muted);
+                border-bottom:2px solid var(--ink);
+                white-space:nowrap;
+            }
+            td{
+                padding:12px 14px;
+                border-bottom:1px solid var(--line);
+            }
+            tr:nth-child(even) td{background:#f8f5ec;}
+            th:last-child, td:last-child{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
+            @media (max-width:640px){
+                form{grid-template-columns:1fr; padding:20px;}
+                .history{padding:20px;}
+            }
+        </style>
+    </head>
+    <body>
+        <form>
+            <h2>You can Order Here</h2>
+            <label>Customer ID<input type="text" id="customer"/></label>
+            <label>Product name
+                <select id="product">
+                    <option>Select</option>
+                    <optgroup label="Snacks">
+                    <option>Kurkure</option>
+                    <option>Lays</option>
+                    <option>Pringles</option>
+                    <option>MAD Angles</option>
+                    </optgroup>
+                    <optgroup label="Chocolates">
+                    <option>Munch</option>
+                    <option>Amul DarkChocolate</option>
+                    <option>Kitkat</option>
+                    <option>Snickers</option>
+                    </optgroup>
+                    <optgroup label="Bevrages">
+                    <option>RedBull</option>
+                    <option>DIET COKE</option>
+                    <option>CocaCola</option>
+                    <option>Sprite</option>
+                    </optgroup>
+                    
+                </select></label>
+                <label>Quantity<input type="number" id="quantity" min="1"></label>
+                <button type="button"  onclick="placeorder()">PlaceOrder</button>
+        </form>
+        <div class="history">
+            <h2>Order History</h2>
+            <div class="table-wrap"><table id="table">
+              <tr>
+                <th>OrderNO</th>
+                <th>CustomerID</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Total Amount</th>
+              </tr>
+            </table></div>
+        </div>
+        <script>
+            let ordcnt = 1;
+            function placeorder(){
+                let table=document.getElementById("table");
+                let custid=document.getElementById("customer").value;
+                let prodname=document.getElementById("product").value;
+                let qnty=document.getElementById("quantity").value;
+                if(custid=="" || prodname=="Select" || qnty==""){
+                    alert("Please fill all fields");
+                    return;
+                }
+                let price=0;
+                let p0=10;
+                let p1=20;
+                let p2=30;
+                let p3=40;
+                let p4=120;
+                switch(prodname){
+                    case "Kurkure":
+                    case "Lays":
+                    case "MAD Angles":
+                        price=p1;
+                        break;
+                    case "Munch":
+                        price=p0;
+                        break;
+                    case "Pringles":
+                    case "Amul DarkChocolate":
+                        price=p4;
+                        break;
+                    case "Kitkat":
+                    case "Snickers":
+                        price=p2;
+                        break;
+                    case "RedBull":
+                    case "DIET COKE":
+                    case "CocaCola":
+                    case "Sprite":
+                        price=p3;
+                        break;
+                }
+                let total=price*qnty;
+                let row=table.insertRow();
+                row.insertCell(0).innerHTML="O"+(ordcnt++);
+                row.insertCell(1).innerHTML="C"+custid;
+                row.insertCell(2).innerHTML=prodname;
+                row.insertCell(3).innerHTML=qnty;
+                row.insertCell(4).innerHTML="₹"+total;
+                document.getElementById("customer").value="";
+                document.getElementById("product").value="Select";
+                document.getElementById("quantity").value="";
+            }
+        </script>
+    </body>
+</html>
